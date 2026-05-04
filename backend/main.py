@@ -19,9 +19,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Configuration de la connexion MongoDB
-# Note: 'mongo' est le nom du service défini dans docker-compose.yml
-MONGO_URL = "mongodb://mongo:27017" # Mis à jour pour Docker
+# --- CONFIGURATION MONGODB ---
+# OPTION A : MongoDB Atlas (Cloud) - Actuellement actif
+MONGO_URL = "mongodb+srv://hachimouakram_db_user:Akram2026@cluster0.cozgyvx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+
+# OPTION B : MongoDB Local (Docker) - Décommenter pour utiliser le conteneur local
+# MONGO_URL = "mongodb://mongo:27017" 
+# ----------------------------
 client = AsyncIOMotorClient(MONGO_URL)
 db = client["alimentation_senegal"]
 
@@ -435,4 +439,7 @@ async def question_10():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    import os
+    # Render utilise la variable d'environnement PORT, sinon on utilise 8000 en local
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)

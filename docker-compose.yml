@@ -19,7 +19,7 @@ services:
     depends_on:
       - mongo
     environment:
-      - MONGO_URL=mongodb://mongo:27017
+      - MONGO_URL=mongodb+srv://hachimouakram_db_user:Akram2026@cluster0.cozgyvx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 
 volumes:
   mongo-data:

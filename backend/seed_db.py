@@ -1,12 +1,26 @@
 import pymongo
 from bson import ObjectId
 from datetime import datetime
+from pymongo import MongoClient
+import os
 
 def seed_database():
-    # Use 'mongo' for Docker, 'localhost' for local development
-    import os
-    mongo_host = os.getenv("MONGO_URL", "mongodb://mongo:27017")
-    client = pymongo.MongoClient(mongo_host)
+    # --- CONFIGURATION MONGODB ---
+    # OPTION A : MongoDB Atlas (Cloud)
+    MONGO_URL = os.getenv("MONGO_URL", "mongodb+srv://hachimouakram_db_user:Akram2026@cluster0.cozgyvx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+    
+    # OPTION B : MongoDB Local (Docker)
+    # MONGO_URL = "mongodb://localhost:27017" # ou "mongodb://mongo:27017" dans Docker
+    # ----------------------------
+    try:
+        client = MongoClient(MONGO_URL, serverSelectionTimeoutMS=5000)
+        # Test de la connexion
+        client.admin.command('ping')
+        print("✅ Connexion à MongoDB Atlas réussie !")
+    except Exception as e:
+        print(f"❌ Erreur de connexion à MongoDB Atlas : {e}")
+        return
+
     db = client["alimentation_senegal"]
 
     # Clear existing data

@@ -8,9 +8,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Environment variable for the database URL
-ENV MONGO_URL=mongodb://mongo:27017
+ENV MONGO_URL=mongodb+srv://hachimouakram_db_user:Akram2026@cluster0.cozgyvx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 
 EXPOSE 8000
 
 # Script to seed the database and then start the server
-CMD ["sh", "-c", "python backend/seed_db.py && uvicorn backend.main:app --host 0.0.0.0 --port 8000"]
+# On utilise ${PORT:-8000} pour être compatible avec Render et le local
+CMD ["sh", "-c", "python backend/seed_db.py && uvicorn backend.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

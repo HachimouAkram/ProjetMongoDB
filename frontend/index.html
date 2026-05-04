@@ -93,7 +93,7 @@
             margin-left: 300px;
             flex: 1;
             padding: 2.5rem;
-            max-width: 1400px;
+            min-width: 0; /* Empêche le débordement horizontal */
         }
 
         header {
@@ -158,14 +158,19 @@
 
         /* Table Styles */
         .table-container {
+            width: 100%;
             overflow-x: auto;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid #e2e8f0;
+            background: white;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             text-align: left;
+            min-width: 700px; /* Force le défilement au lieu de compresser les colonnes */
         }
 
         th {
@@ -227,7 +232,7 @@
     <aside class="sidebar">
         <div class="logo">
             <i class="fas fa-utensils"></i>
-            <span>Sunu Food DB</span>
+            <span>HAK Food 🇸🇳</span>
         </div>
         <div class="menu-item active" onclick="showQuestion(0)">
             <i class="fas fa-home"></i> Vue d'ensemble
@@ -354,13 +359,18 @@
             }
         ];
 
+        /**
+         * Gère le changement de vue lorsqu'on clique sur une question du menu.
+         * @param {number} index - L'index de la question (1 à 10).
+         */
         function showQuestion(index) {
-            // Update sidebar
+            // Met à jour l'apparence visuelle du menu latéral (item actif)
             document.querySelectorAll('.menu-item').forEach((item, i) => {
                 if (i === index) item.classList.add('active');
                 else item.classList.remove('active');
             });
 
+            // Si on clique sur "Vue d'ensemble", on recharge simplement la page
             if (index === 0) {
                 location.reload();
                 return;
@@ -369,13 +379,16 @@
             const q = questions[index];
             if (!q) return;
 
+            // Affiche l'indicateur de chargement
             loader.style.display = 'block';
             contentArea.innerHTML = '';
 
+            // Appel fetch vers l'API FastAPI correspondante
             fetch(`${API_BASE}/question/${index}`)
                 .then(res => res.json())
                 .then(data => {
                     loader.style.display = 'none';
+                    // Déclenche le rendu de la réponse reçue
                     renderResponse(index, q, data);
                 })
                 .catch(err => {
@@ -385,6 +398,9 @@
                 });
         }
 
+        /**
+         * Prépare l'affichage global de la réponse (Titre, Pipeline MongoDB et Conteneur de données).
+         */
         function renderResponse(index, q, data) {
             let html = `
                 <div class="card">
@@ -408,16 +424,22 @@
             `;
             contentArea.innerHTML = html;
 
+            // Si c'est la Q4 ou Q6, on génère aussi les graphiques Chart.js
             if (index === 4) renderChartQ4(data);
             if (index === 6) renderChartQ6(data);
         }
 
+        /**
+         * Génère dynamiquement le tableau HTML en fonction de la question sélectionnée.
+         * Chaque question renvoie des données structurées différemment.
+         */
         function renderTable(index, data) {
+            // Gestion du cas où aucune donnée n'est retournée par l'API
             if (!data || (Array.isArray(data) && data.length === 0)) return "<p>Aucun résultat trouvé.</p>";
 
             let html = '<div class="table-container"><table><thead><tr>';
             
-            // Define headers based on question
+            // Définition des entêtes personnalisées pour chaque question du TP
             const headers = {
                 1: ["Nom", "Note", "Plats Proposés"],
                 2: ["Client", "Total Dépensé", "Nb Commandes", "Moyenne"],
@@ -430,13 +452,17 @@
                 10: ["Recommandation", "Prix"]
             };
 
+            // Rendu spécial pour la Question 6 (Dashboard multi-facettes)
             if (index === 6) return renderFacetView(data[0]);
+            
+            // Rendu spécial pour la Question 9 (Retourne une valeur unique)
             if (index === 9) {
                 return `<table><thead><tr><th>Métrique</th><th>Valeur</th></tr></thead><tbody>
                     <tr><td>Commandes Veg/Vegan</td><td>${data[0].nb_commandes_speciales}</td></tr>
                 </tbody></table>`;
             }
 
+            // Génération des colonnes d'entête (Headers)
             const currentHeaders = headers[index] || Object.keys(data[0]);
             currentHeaders.forEach(h => html += `<th>${h}</th>`);
             html += '</tr></thead><tbody>';
@@ -476,23 +502,31 @@
 
         function renderFacetView(data) {
             return `
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
-                    <div>
-                        <h3>Répartition par Statut</h3>
-                        <table><thead><tr><th>Statut</th><th>Nombre</th></tr></thead><tbody>
-                            ${data.repartition_statut.map(s => `<tr><td>${s._id}</td><td>${s.nombre}</td></tr>`).join('')}
-                        </tbody></table>
+                <div class="facet-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                    <div class="card" style="margin-bottom: 0; padding: 1.5rem; border-color: #f1f5f9;">
+                        <h3 style="margin-bottom: 1rem; color: var(--sidebar);"><i class="fas fa-chart-pie"></i> Répartition par Statut</h3>
+                        <div class="table-container">
+                            <table><thead><tr><th>Statut</th><th>Nombre</th></tr></thead><tbody>
+                                ${data.repartition_statut.map(s => `<tr><td><span class="badge ${s._id === 'livrée' ? 'badge-success' : 'badge-warning'}">${s._id}</span></td><td><strong>${s.nombre}</strong></td></tr>`).join('')}
+                            </tbody></table>
+                        </div>
                     </div>
-                    <div>
-                        <h3>Top Clients (Fidélité)</h3>
-                        <table><thead><tr><th>Client</th><th>Points</th></tr></thead><tbody>
-                            ${data.top_clients.map(c => `<tr><td>${c.prenom} ${c.nom}</td><td>${c.points} pts</td></tr>`).join('')}
-                        </tbody></table>
+                    
+                    <div class="card" style="margin-bottom: 0; padding: 1.5rem; border-color: #f1f5f9;">
+                        <h3 style="margin-bottom: 1rem; color: var(--sidebar);"><i class="fas fa-medal"></i> Top Clients (Fidélité)</h3>
+                        <div class="table-container">
+                            <table><thead><tr><th>Client</th><th>Points</th></tr></thead><tbody>
+                                ${data.top_clients.map(c => `<tr><td>${c.prenom} ${c.nom}</td><td><span class="badge badge-success">${c.points} pts</span></td></tr>`).join('')}
+                            </tbody></table>
+                        </div>
                     </div>
-                </div>
-                <div class="chart-container">
-                    <h3>Revenu Mensuel (FCFA)</h3>
-                    <canvas id="chartQ6"></canvas>
+
+                    <div class="card" style="padding: 1.5rem;">
+                        <h3 style="margin-bottom: 1rem; color: var(--sidebar);"><i class="fas fa-chart-line"></i> Revenu Mensuel (FCFA)</h3>
+                        <div class="chart-container">
+                            <canvas id="chartQ6"></canvas>
+                        </div>
+                    </div>
                 </div>
             `;
         }
