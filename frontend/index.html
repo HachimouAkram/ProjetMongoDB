@@ -93,7 +93,21 @@
             margin-left: 300px;
             flex: 1;
             padding: 2.5rem;
-            min-width: 0; /* Empêche le débordement horizontal */
+            min-width: 0; /* Important pour flexbox */
+            overflow-wrap: break-word;
+        }
+
+        /* Ajustement des graphiques pour qu'ils ne forcent pas la largeur */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100% !important;
+        }
+
+        /* Ajustement des blocs de code pour le mobile */
+        pre {
+            white-space: pre-wrap;
+            word-break: break-all;
         }
 
         header {
