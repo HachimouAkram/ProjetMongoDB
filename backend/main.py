@@ -7,6 +7,7 @@ from datetime import datetime
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import os
+import certifi
 
 app = FastAPI(title="MongoDB Alimentation Sénégal API")
 
@@ -26,7 +27,7 @@ MONGO_URL = "mongodb+srv://hachimouakram_db_user:Akram2026@cluster0.cozgyvx.mong
 # OPTION B : MongoDB Local (Docker) - Décommenter pour utiliser le conteneur local
 # MONGO_URL = "mongodb://mongo:27017" 
 # ----------------------------
-client = AsyncIOMotorClient(MONGO_URL)
+client = AsyncIOMotorClient(MONGO_URL, tlsCAFile=certifi.where())
 db = client["alimentation_senegal"]
 
 # Montage des fichiers statiques du Frontend

@@ -4,3 +4,4 @@ pymongo
 motor
 python-multipart
 dnspython
+certifi

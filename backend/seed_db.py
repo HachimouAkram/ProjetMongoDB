@@ -3,6 +3,7 @@ from bson import ObjectId
 from datetime import datetime
 from pymongo import MongoClient
 import os
+import certifi
 
 def seed_database():
     # --- CONFIGURATION MONGODB ---
@@ -13,7 +14,7 @@ def seed_database():
     # MONGO_URL = "mongodb://localhost:27017" # ou "mongodb://mongo:27017" dans Docker
     # ----------------------------
     try:
-        client = MongoClient(MONGO_URL, serverSelectionTimeoutMS=5000)
+        client = MongoClient(MONGO_URL, serverSelectionTimeoutMS=5000, tlsCAFile=certifi.where())
         # Test de la connexion
         client.admin.command('ping')
         print("✅ Connexion à MongoDB Atlas réussie !")
