@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sénégal Gastronomie - Dashboard MongoDB</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
@@ -95,9 +97,10 @@
             display: flex;
             align-items: center;
             gap: 1rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             margin-bottom: 1rem;
         }
+
         .profile-img {
             width: 50px;
             height: 50px;
@@ -105,19 +108,23 @@
             object-fit: cover;
             border: 2px solid var(--primary);
         }
+
         .profile-info {
             display: flex;
             flex-direction: column;
         }
+
         .profile-name {
             font-weight: 700;
             font-size: 0.95rem;
             color: #fff;
         }
+
         .profile-role {
             font-size: 0.75rem;
             color: var(--text-light);
         }
+
         .report-btn {
             display: flex;
             align-items: center;
@@ -133,6 +140,7 @@
             font-size: 0.85rem;
             transition: all 0.3s ease;
         }
+
         .report-btn:hover {
             background: #108f45;
             transform: translateY(-2px);
@@ -142,7 +150,8 @@
             margin-left: 300px;
             flex: 1;
             padding: 2.5rem;
-            min-width: 0; /* Important pour flexbox */
+            min-width: 0;
+            /* Important pour flexbox */
             overflow-wrap: break-word;
         }
 
@@ -187,8 +196,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .card-header {
@@ -233,7 +249,8 @@
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            min-width: 700px; /* Force le défilement au lieu de compresser les colonnes */
+            min-width: 700px;
+            /* Force le défilement au lieu de compresser les colonnes */
         }
 
         th {
@@ -272,8 +289,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* Status Badges */
@@ -284,15 +306,27 @@
             font-weight: 600;
         }
 
-        .badge-success { background: #dcfce7; color: #166534; }
-        .badge-warning { background: #fef9c3; color: #854d0e; }
-        .badge-error { background: #fee2e2; color: #991b1b; }
+        .badge-success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-warning {
+            background: #fef9c3;
+            color: #854d0e;
+        }
+
+        .badge-error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
 
         /* --- RESPONSIVE DESIGN --- */
         @media (max-width: 1024px) {
             .sidebar {
                 width: 240px;
             }
+
             .main-content {
                 margin-left: 240px;
             }
@@ -302,27 +336,34 @@
             body {
                 flex-direction: column;
             }
+
             .sidebar {
                 width: 100%;
                 height: auto;
                 position: relative;
                 padding: 1rem;
             }
+
             .sidebar-header {
                 margin-bottom: 1rem;
             }
+
             .main-content {
                 margin-left: 0;
                 padding: 1.5rem;
             }
+
             .stats-grid {
                 grid-template-columns: 1fr;
             }
+
             .chart-row {
                 grid-template-columns: 1fr;
             }
+
             .table-container {
-                overflow-x: auto; /* Permet de swiper le tableau sur mobile */
+                overflow-x: auto;
+                /* Permet de swiper le tableau sur mobile */
             }
         }
 
@@ -330,15 +371,18 @@
             :root {
                 --sidebar: #0a1120;
             }
+
             h1 {
                 font-size: 1.5rem;
             }
+
             .card {
                 padding: 1rem;
             }
         }
     </style>
 </head>
+
 <body>
 
     <aside class="sidebar">
@@ -349,10 +393,10 @@
 
         <!-- Profil Auteur -->
         <div class="profile-section">
-            <img src="adkram.jpg" alt="HACHIMOU Akram" class="profile-img">
+            <img src="akram.jpg" alt="HACHIMOU Akram" class="profile-img">
             <div class="profile-info">
                 <p class="profile-name">HACHIMOU Akram</p>
-                <p class="profile-role">Analyste & Développeur</p>
+                <p class="profile-role">Ingenieur en Informatique</p>
             </div>
         </div>
 
@@ -408,7 +452,8 @@
             <!-- Content will be injected here -->
             <div class="card">
                 <h2>Bienvenue dans le Dashboard</h2>
-                <p style="margin-top: 1rem;">Ce projet utilise MongoDB pour analyser les habitudes alimentaires, les performances des restaurants et des livreurs au Sénégal.</p>
+                <p style="margin-top: 1rem;">Ce projet utilise MongoDB pour analyser les habitudes alimentaires, les
+                    performances des restaurants et des livreurs au Sénégal.</p>
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem;">
                     <div class="card" style="margin-bottom: 0; background: #f0fdf4;">
                         <h3 style="color: #166534;">5 Collections</h3>
@@ -434,53 +479,53 @@
 
         const questions = [
             { id: 0, title: "Vue d'ensemble", desc: "" },
-            { 
-                id: 1, title: "Restaurants de Dakar", 
+            {
+                id: 1, title: "Restaurants de Dakar",
                 desc: "Liste les restaurants de Dakar avec leurs plats, triés par note.",
                 query: "db.restaurants.aggregate([\n  { $match: { 'adresse.ville': 'Dakar' } },\n  { $lookup: { from: 'plats', localField: '_id', foreignField: 'restaurant_id', as: 'liste_plats' } },\n  { $project: { nom: 1, note_moyenne: 1, plats: '$liste_plats' } },\n  { $sort: { note_moyenne: -1 } }\n])"
             },
-            { 
-                id: 2, title: "Dépenses par Client", 
+            {
+                id: 2, title: "Dépenses par Client",
                 desc: "Total dépensé et moyenne par commande pour les commandes livrées.",
                 query: "db.clients.aggregate([\n  { $lookup: { from: 'commandes', localField: '_id', foreignField: 'client_id', as: 'cmds' } },\n  { $unwind: '$cmds' },\n  { $match: { 'cmds.statut': 'livrée' } },\n  { $group: { _id: '$_id', total: { $sum: '$cmds.total' }, nb: { $sum: 1 }, avg: { $avg: '$cmds.total' } } }\n])"
             },
-            { 
-                id: 3, title: "Top 3 Plats", 
+            {
+                id: 3, title: "Top 3 Plats",
                 desc: "Les plats les plus populaires avec leur restaurant d'origine.",
                 query: "db.commandes.aggregate([\n  { $unwind: '$articles' },\n  { $group: { _id: '$articles.plat_id', totalQty: { $sum: '$articles.quantite' } } },\n  { $lookup: { from: 'plats', localField: '_id', foreignField: '_id', as: 'p' } },\n  { $sort: { totalQty: -1 } },\n  { $limit: 3 }\n])"
             },
-            { 
-                id: 4, title: "Analyse des Paiements", 
+            {
+                id: 4, title: "Analyse des Paiements",
                 desc: "Répartition du chiffre d'affaires par mode de paiement.",
                 query: "db.commandes.aggregate([\n  { $match: { statut: 'livrée' } },\n  { $facet: {\n      stats: [ { $group: { _id: '$mode_paiement', revenu: { $sum: '$total' } } } ],\n      total: [ { $group: { _id: null, ca: { $sum: '$total' } } } ]\n  } }\n])"
             },
-            { 
-                id: 5, title: "Clients Multi-Goûts", 
+            {
+                id: 5, title: "Clients Multi-Goûts",
                 desc: "Clients ayant commandé à la fois du Tofu et du Poisson.",
                 query: "db.commandes.aggregate([\n  { $unwind: '$articles' },\n  { $group: { _id: '$client_id', items: { $addToSet: '$articles.nom_plat' } } },\n  { $match: { items: { $all: [/tofu/i, /poisson/i] } } }\n])"
             },
-            { 
-                id: 6, title: "Dashboard Global", 
+            {
+                id: 6, title: "Dashboard Global",
                 desc: "Statistiques multi-facettes: Statuts, Revenu mensuel, Top clients.",
                 query: "db.commandes.aggregate([\n  { $facet: {\n      par_statut: [ { $group: { _id: '$statut', nb: { $sum: 1 } } } ],\n      revenu_mois: [ { $match: { statut: 'livrée' } }, { $group: { _id: { $month: '$date_commande' }, total: { $sum: '$total' } } } ],\n      top_clients: [ { $lookup: { from: 'clients', pipeline: [ { $sort: { points_fidelite: -1 } }, { $limit: 3 } ], as: 'c' } } ]\n  } }\n])"
             },
-            { 
-                id: 7, title: "Recherche de Proximité", 
+            {
+                id: 7, title: "Recherche de Proximité",
                 desc: "Restaurants les plus proches d'Ousmane Sarr.",
                 query: "db.restaurants.aggregate([\n  { $geoNear: { \n      near: { type: 'Point', coordinates: [-17.48, 14.72] }, \n      distanceField: 'dist', \n      spherical: true \n  } }\n])"
             },
-            { 
-                id: 8, title: "Performance Livreurs", 
+            {
+                id: 8, title: "Performance Livreurs",
                 desc: "Temps moyen de livraison et notes des livreurs.",
                 query: "db.commandes.aggregate([\n  { $match: { statut: 'livrée', livreur_id: { $ne: null } } },\n  { $group: { _id: '$livreur_id', nb: { $sum: 1 }, avgTime: { $avg: '$delai_livraison_minutes' } } },\n  { $lookup: { from: 'livreurs', localField: '_id', foreignField: '_id', as: 'l' } }\n])"
             },
-            { 
-                id: 9, title: "Analyse des Régimes", 
+            {
+                id: 9, title: "Analyse des Régimes",
                 desc: "Nombre de commandes contenant des plats végétariens ou vegans.",
                 query: "db.commandes.aggregate([\n  { $unwind: '$articles' },\n  { $lookup: { from: 'plats', localField: 'articles.plat_id', foreignField: '_id', as: 'p' } },\n  { $match: { 'p.regime': { $in: ['vegetarien', 'vegan'] } } },\n  { $count: 'nb' }\n])"
             },
-            { 
-                id: 10, title: "Recommendations IA", 
+            {
+                id: 10, title: "Recommendations IA",
                 desc: "Plats suggérés basés sur les voisins (même ville).",
                 query: "db.clients.aggregate([\n  { $match: { _id: ousmane_id } },\n  { $lookup: { from: 'commandes', localField: '_id', foreignField: 'client_id', as: 'my_cmds' } },\n  { $project: { recs: { $setDifference: ['$neighborhood_plats', '$my_plats'] } } }\n])"
             }
@@ -565,7 +610,7 @@
             if (!data || (Array.isArray(data) && data.length === 0)) return "<p>Aucun résultat trouvé.</p>";
 
             let html = '<div class="table-container"><table><thead><tr>';
-            
+
             // Définition des entêtes personnalisées pour chaque question du TP
             const headers = {
                 1: ["Nom", "Note", "Plats Proposés"],
@@ -581,7 +626,7 @@
 
             // Rendu spécial pour la Question 6 (Dashboard multi-facettes)
             if (index === 6) return renderFacetView(data[0]);
-            
+
             // Rendu spécial pour la Question 9 (Retourne une valeur unique)
             if (index === 9) {
                 return `<table><thead><tr><th>Métrique</th><th>Valeur</th></tr></thead><tbody>
@@ -626,9 +671,9 @@
             });
 
             html += '</tbody></table></div>';
-            
+
             if (index === 4) html += '<div class="chart-container"><canvas id="chartQ4"></canvas></div>';
-            
+
             return html;
         }
 
@@ -697,4 +742,5 @@
         }
     </script>
 </body>
+
 </html>
