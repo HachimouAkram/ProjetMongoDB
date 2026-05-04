@@ -464,6 +464,11 @@
 
             // Génération des colonnes d'entête (Headers)
             const currentHeaders = headers[index] || Object.keys(data[0]);
+            // Sécurité : Si l'API renvoie une erreur (objet) au lieu d'une liste
+            if (!Array.isArray(data) && index !== 6 && index !== 4) {
+                return `<div class="badge badge-warning">Erreur API : ${JSON.stringify(data)}</div>`;
+            }
+
             currentHeaders.forEach(h => html += `<th>${h}</th>`);
             html += '</tr></thead><tbody>';
 
