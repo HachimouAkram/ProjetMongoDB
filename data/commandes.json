@@ -1,0 +1,25 @@
+[
+  { 
+    "_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e301" }, "client_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e201" }, "date_commande": { "$date": "2025-06-10T12:30:00Z" }, "statut": "livrée", "mode_paiement": "Mobile Money", "total": 6500,
+    "articles": [
+      { "plat_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e101" }, "quantite": 1, "prix_unitaire": 3500, "nom_plat": "Thiéboudienne Poisson" },
+      { "plat_id": { "$oid": { "$oid": "67a1c2d3e4f5a6b7c8d9e102" } }, "quantite": 1, "prix_unitaire": 3000, "nom_plat": "Yassa Poulet" }
+    ],
+    "livreur_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e401" }, "delai_livraison_minutes": 35
+  },
+  { 
+    "_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e302" }, "client_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e202" }, "date_commande": { "$date": "2025-06-11T19:15:00Z" }, "statut": "en_cours", "mode_paiement": "Carte", "total": 2800,
+    "articles": [ { "plat_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e103" }, "quantite": 1, "prix_unitaire": 2800, "nom_plat": "Mafé Tofu" } ],
+    "livreur_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e402" }, "delai_livraison_minutes": null
+  },
+  { 
+    "_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e303" }, "client_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e202" }, "date_commande": { "$date": "2025-06-05T13:00:00Z" }, "statut": "livrée", "mode_paiement": "Mobile Money", "total": 4500,
+    "articles": [ { "plat_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e104" }, "quantite": 1, "prix_unitaire": 4500, "nom_plat": "Dibi Mouton" } ],
+    "livreur_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e401" }, "delai_livraison_minutes": 28
+  },
+  { 
+    "_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e304" }, "client_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e203" }, "date_commande": { "$date": "2025-06-12T20:00:00Z" }, "statut": "annulée", "mode_paiement": "Espèces", "total": 4000,
+    "articles": [ { "plat_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e105" }, "quantite": 1, "prix_unitaire": 4000, "nom_plat": "Caldou" } ],
+    "livreur_id": null, "delai_livraison_minutes": null
+  }
+]

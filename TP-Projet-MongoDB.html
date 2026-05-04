@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>MongoDB Expert - Projet Alimentation Sénégal | Sujet Étudiant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #fef9e6 0%, #f8f3e0 100%);
+            color: #1a2c3e;
+            line-height: 1.6;
+        }
+        :root { --mdb-green: #13AA52; --senegal-orange: #E34C26; --code-bg: #0a1622; }
+        .hero {
+            background: linear-gradient(135deg, #0a2a1f 0%, #1b4d2e 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-bottom-left-radius: 2rem;
+            border-bottom-right-radius: 2rem;
+        }
+        h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; max-width: 800px; margin: 0 auto; opacity: 0.9; }
+        .badge-sujet {
+            background: var(--senegal-orange);
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .container { max-width: 1400px; margin: 2rem auto; padding: 0 2rem; }
+        .grid { display: grid; grid-template-columns: 320px 1fr; gap: 2rem; }
+        .sidebar {
+            position: sticky;
+            top: 2rem;
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 20px 40px -12px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+        .sidebar h3 { margin-bottom: 1rem; color: #0a2a1f; }
+        .toc { list-style: none; }
+        .toc li { margin-bottom: 0.7rem; }
+        .toc a { text-decoration: none; color: #2c5a3b; font-weight: 500; display: flex; gap: 0.7rem; padding: 0.3rem 0; border-left: 3px solid transparent; padding-left: 0.8rem; transition: 0.2s; }
+        .toc a:hover { color: var(--mdb-green); border-left-color: var(--mdb-green); }
+        .content { background: white; border-radius: 1.5rem; box-shadow: 0 20px 40px -12px rgba(0,0,0,0.1); overflow: hidden; }
+        .section { padding: 2rem 2.5rem; border-bottom: 1px solid #e2ede6; scroll-margin-top: 2rem; }
+        .section:last-child { border-bottom: none; }
+        h2 { font-size: 1.8rem; color: #0a3828; margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
+        h3 { font-size: 1.3rem; margin: 1.5rem 0 1rem 0; color: #1e5a42; }
+        h4 { font-size: 1.1rem; margin: 1rem 0 0.5rem 0; color: #2c6e52; }
+        .code-block {
+            background: var(--code-bg);
+            border-radius: 1rem;
+            padding: 1.2rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #d4f0e4;
+            border-left: 4px solid var(--mdb-green);
+        }
+        .question-card {
+            background: #f0f9f4;
+            border-radius: 1rem;
+            padding: 1.2rem;
+            margin: 1rem 0;
+            border-left: 5px solid var(--senegal-orange);
+        }
+        .warning-card {
+            background: #fff3e0;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 5px solid #ff9800;
+        }
+        .info-card { background: #eef9f2; padding: 1rem; border-radius: 1rem; margin: 1rem 0; display: flex; gap: 1rem; }
+        .tech-card {
+            background: #e8f0fe;
+            border-radius: 1rem;
+            padding: 1.2rem;
+            margin: 1rem 0;
+            border-left: 5px solid #13AA52;
+        }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #e6f4ea; }
+        @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } .sidebar { position: static; } .section { padding: 1.5rem; } h1 { font-size: 1.8rem; } }
+        footer { background: #0a2a1f; color: white; text-align: center; padding: 2rem; margin-top: 3rem; }
+        .page-break { page-break-before: always; margin-top: 2rem; border-top: 2px dashed #ccc; }
+    </style>
+</head>
+<body>
+<header class="hero">
+    <div class="badge-sujet"><i class="fas fa-graduation-cap"></i> SUJET MINI-PROJET A FAIRE</div>
+    <h1><i class="fas fa-utensils"></i> Projet MongoDB<br>Alimentation & Gastronomie Sénégal</h1>
+    <p>Dataset complet • 10 requêtes avancées • Mini-application Web (Python/Php) • Durée : 5jrs</p>
+</header>
+<div class="container">
+    <div class="grid">
+        <aside class="sidebar">
+            <h3><i class="fas fa-list-ul"></i> Navigation</h3>
+            <ul class="toc">
+                <li><a href="#consignes"><i class="fas fa-clipboard-list"></i> Consignes générales</a></li>
+                <li><a href="#dataset"><i class="fas fa-database"></i> Dataset à importer</a></li>
+                <li><a href="#questions"><i class="fas fa-question-circle"></i> 10 Questions MongoDB</a></li>
+                <li><a href="#webapp"><i class="fas fa-globe"></i> Mini-application Web</a></li>
+                <li><a href="#rendu"><i class="fas fa-file-alt"></i> Rendu & Évaluation</a></li>
+            </ul>
+            <div class="warning-card">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div><strong>Important :</strong> Ce document ne contient PAS les corrigés. Les étudiants doivent produire leurs propres requêtes et leur application web.</div>
+            </div>
+        </aside>
+        <main class="content">
+            <!-- CONSIGNES -->
+            <section id="consignes" class="section">
+                <h2><i class="fas fa-clipboard-list"></i> Consignes générales</h2>
+                <p>Vous êtes chargé de développer une application d'analyse de données pour le secteur de la restauration/livraison de plats traditionnels sénégalais. Vous travaillerez sur un dataset MongoDB contenant 5 collections : <code>restaurants</code>, <code>plats</code>, <code>clients</code>, <code>commandes</code>, <code>livreurs</code>.</p>
+                <div class="info-card">
+                    <i class="fas fa-docker"></i>
+                    <div><strong>Environnement technique :</strong><br>
+                    - MongoDB (Docker ou local)<br>
+                    - MongoDB Compass (recommandé pour visualisation)<br>
+                    - Python (Flask/FastAPI) <strong>OU</strong> PHP (vanilla/Slim)<br>
+                    - HTML/CSS/JavaScript pour l'interface</div>
+                </div>
+                <h3>📌 Objectifs du projet</h3>
+                <ol style="margin-left: 1.5rem;">
+                    <li>Importer correctement le dataset MongoDB fourni.</li>
+                    <li>Écrire 10 requêtes d'agrégation MongoDB (niveau expert) répondant aux questions posées.</li>
+                    <li>Développer une mini-application web (Python ou PHP) qui interroge MongoDB et affiche les résultats de manière interactive.</li>
+                    <li>Rédiger un rapport de projet expliquant vos choix techniques et difficultés rencontrées.</li>
+                </ol>
+            </section>
+
+            <!-- DATASET -->
+            <section id="dataset" class="section">
+                <h2><i class="fas fa-database"></i> Dataset à importer</h2>
+                <p>Les étudiants doivent importer les 5 collections suivantes dans leur base de données MongoDB nommée <code>alimentation_senegal</code>.</p>
+                
+                <h3>📁 Collection 1 : <code>restaurants</code></h3>
+                <div class="code-block"><pre>db.restaurants.insertMany([
+  {
+    "_id": ObjectId("67a1c2d3e4f5a6b7c8d9e001"),
+    "nom": "Chez Fatou - Thiéboudienne",
+    "adresse": { "rue": "Rue 10", "ville": "Dakar", "quartier": "Ouakam", "code_postal": "10000", "coordinates": { "type": "Point", "coordinates": [-17.476, 14.716] } },
+    "telephone": "77 123 45 01",
+    "specialites": ["Thiéboudienne", "Yassa Poulet"],
+    "horaires": { "lundi_vendredi": "08:00-22:00", "samedi": "09:00-23:00", "dimanche": "10:00-20:00" },
+    "note_moyenne": 4.5,
+    "zone_livraison": ["Dakar", "Pikine", "Guédiawaye"],
+    "ouvert": true
+  },
+  {
+    "_id": ObjectId("67a1c2d3e4f5a6b7c8d9e002"),
+    "nom": "La Marmite de Mame Diarra",
+    "adresse": { "ville": "Dakar", "quartier": "Mermoz", "coordinates": { "type": "Point", "coordinates": [-17.472, 14.710] } },
+    "specialites": ["Mafé", "Soupe Kandia", "Thiéboudienne"],
+    "note_moyenne": 4.8,
+    "zone_livraison": ["Dakar", "Almadies"],
+    "ouvert": true
+  },
+  {
+    "_id": ObjectId("67a1c2d3e4f5a6b7c8d9e003"),
+    "nom": "Dibi Star Thiès",
+    "adresse": { "ville": "Thiès", "quartier": "Centre", "coordinates": { "type": "Point", "coordinates": [-16.924, 14.802] } },
+    "specialites": ["Dibi", "Yassa Poisson"],
+    "note_moyenne": 4.2,
+    "zone_livraison": ["Thiès", "Tivaouane"],
+    "ouvert": true
+  },
+  {
+    "_id": ObjectId("67a1c2d3e4f5a6b7c8d9e004"),
+    "nom": "Saint-Louis Plateau",
+    "adresse": { "ville": "Saint-Louis", "quartier": "Île", "coordinates": { "type": "Point", "coordinates": [-16.503, 16.025] } },
+    "specialites": ["Caldou", "Soupe Kandia", "Thiéboudienne"],
+    "note_moyenne": 4.6,
+    "zone_livraison": ["Saint-Louis", "Ndiareme"],
+    "ouvert": false
+  }
+]);</pre></div>
+
+                <h3>📁 Collection 2 : <code>plats</code></h3>
+                <div class="code-block"><pre>db.plats.insertMany([
+  { "_id": ObjectId("67a1c2d3e4f5a6b7c8d9e101"), "nom": "Thiéboudienne Poisson", "categorie": "plat_principal", "prix": 3500, "ingredients": ["riz", "poisson", "légumes", "tomate", "oignon"], "regime": ["sans lactose"], "restaurant_id": ObjectId("67a1c2d3e4f5a6b7c8d9e001"), "preparation_minutes": 45, "calories": 850 },
+  { "_id": ObjectId("67a1c2d3e4f5a6b7c8d9e102"), "nom": "Yassa Poulet", "categorie": "plat_principal", "prix": 3000, "ingredients": ["poulet", "oignon", "citron", "moutarde"], "regime": [], "restaurant_id": ObjectId("67a1c2d3e4f5a6b7c8d9e001"), "preparation_minutes": 30, "calories": 720 },
+  { "_id": ObjectId("67a1c2d3e4f5a6b7c8d9e103"), "nom": "Mafé Tofu", "categorie": "plat_principal", "prix": 2800, "ingredients": ["tofu", "pâte arachide", "légumes"], "regime": ["vegetarien", "vegan"], "restaurant_id": ObjectId("67a1c2d3e4f5a6b7c8d9e002"), "preparation_minutes": 40, "calories": 680 },
+  { "_id": ObjectId("67a1c2d3e4f5a6b7c8d9e104"), "nom": "Dibi Mouton", "categorie": "grillade", "prix": 4500, "ingredients": ["mouton", "moutarde", "oignon"], "regime": ["sans gluten"], "restaurant_id": ObjectId("67a1c2d3e4f5a6b7c8d9e003"), "preparation_minutes": 25, "calories": 950 },
+  { "_id": ObjectId("67a1c2d3e4f5a6b7c8d9e105"), "nom": "Caldou (Poisson)", "categorie": "plat_principal", "prix": 4000, "ingredients": ["poisson", "légumes", "plantain"], "regime": [], "restaurant_id": ObjectId("67a1c2d3e4f5a6b7c8d9e004"), "preparation_minutes": 50, "calories": 800 }
+]);</pre></div>
+
+                <h3>📁 Collection 3 : <code>clients</code></h3>
+                <div class="code-block"><pre>db.clients.insertMany([
+  { "_id": ObjectId("67a1c2d3e4f5a6b7c8d9e201"), "prenom": "Ousmane", "nom": "Sarr", "email": "ousmane.sarr@example.sn", "telephone": "77 111 22 33", "ville": "Dakar", "adresse_coord": { "type": "Point", "coordinates": [-17.480, 14.720] }, "points_fidelite": 150, "date_inscription": ISODate("2024-01-15") },
+  { "_id": ObjectId("67a1c2d3e4f5a6b7c8d9e202"), "prenom": "Aïssatou", "nom": "Ndiaye", "email": "aissatou.ndiaye@example.sn", "telephone": "78 222 33 44", "ville": "Dakar", "adresse_coord": { "type": "Point", "coordinates": [-17.465, 14.708] }, "points_fidelite": 320, "date_inscription": ISODate("2023-09-10") },
+  { "_id": ObjectId("67a1c2d3e4f5a6b7c8d9e203"), "prenom": "Ibrahima", "nom": "Fall", "telephone": "70 333 44 55", "ville": "Thiès", "adresse_coord": { "type": "Point", "coordinates": [-16.924, 14.802] }, "points_fidelite": 45, "date_inscription": ISODate("2024-06-20") },
+  { "_id": ObjectId("67a1c2d3e4f5a6b7c8d9e204"), "prenom": "Fatou", "nom": "Diop", "ville": "Saint-Louis", "adresse_coord": { "type": "Point", "coordinates": [-16.503, 16.025] }, "points_fidelite": 210, "date_inscription": ISODate("2023-12-01") }
+]);</pre></div>
+
+                <h3>📁 Collection 4 : <code>commandes</code></h3>
+                <div class="code-block"><pre>db.commandes.insertMany([
+  { 
+    "_id": ObjectId("67a1c2d3e4f5a6b7c8d9e301"), "client_id": ObjectId("67a1c2d3e4f5a6b7c8d9e201"), "date_commande": ISODate("2025-06-10T12:30:00Z"), "statut": "livrée", "mode_paiement": "Mobile Money", "total": 6500,
+    "articles": [
+      { "plat_id": ObjectId("67a1c2d3e4f5a6b7c8d9e101"), "quantite": 1, "prix_unitaire": 3500, "nom_plat": "Thiéboudienne Poisson" },
+      { "plat_id": ObjectId("67a1c2d3e4f5a6b7c8d9e102"), "quantite": 1, "prix_unitaire": 3000, "nom_plat": "Yassa Poulet" }
+    ],
+    "livreur_id": ObjectId("67a1c2d3e4f5a6b7c8d9e401"), "delai_livraison_minutes": 35
+  },
+  { 
+    "_id": ObjectId("67a1c2d3e4f5a6b7c8d9e302"), "client_id": ObjectId("67a1c2d3e4f5a6b7c8d9e202"), "date_commande": ISODate("2025-06-11T19:15:00Z"), "statut": "en_cours", "mode_paiement": "Carte", "total": 2800,
+    "articles": [ { "plat_id": ObjectId("67a1c2d3e4f5a6b7c8d9e103"), "quantite": 1, "prix_unitaire": 2800, "nom_plat": "Mafé Tofu" } ],
+    "livreur_id": ObjectId("67a1c2d3e4f5a6b7c8d9e402"), "delai_livraison_minutes": null
+  },
+  { 
+    "_id": ObjectId("67a1c2d3e4f5a6b7c8d9e303"), "client_id": ObjectId("67a1c2d3e4f5a6b7c8d9e202"), "date_commande": ISODate("2025-06-05T13:00:00Z"), "statut": "livrée", "mode_paiement": "Mobile Money", "total": 4500,
+    "articles": [ { "plat_id": ObjectId("67a1c2d3e4f5a6b7c8d9e104"), "quantite": 1, "prix_unitaire": 4500, "nom_plat": "Dibi Mouton" } ],
+    "livreur_id": ObjectId("67a1c2d3e4f5a6b7c8d9e401"), "delai_livraison_minutes": 28
+  },
+  { 
+    "_id": ObjectId("67a1c2d3e4f5a6b7c8d9e304"), "client_id": ObjectId("67a1c2d3e4f5a6b7c8d9e203"), "date_commande": ISODate("2025-06-12T20:00:00Z"), "statut": "annulée", "mode_paiement": "Espèces", "total": 4000,
+    "articles": [ { "plat_id": ObjectId("67a1c2d3e4f5a6b7c8d9e105"), "quantite": 1, "prix_unitaire": 4000, "nom_plat": "Caldou" } ],
+    "livreur_id": null, "delai_livraison_minutes": null
+  }
+]);</pre></div>
+
+                <h3>📁 Collection 5 : <code>livreurs</code></h3>
+                <div class="code-block"><pre>db.livreurs.insertMany([
+  { "_id": ObjectId("67a1c2d3e4f5a6b7c8d9e401"), "nom": "Moussa Diagne", "telephone": "70 111 22 33", "zone": "Dakar", "nb_livraisons": 128, "note_moyenne": 4.9, "disponible": true },
+  { "_id": ObjectId("67a1c2d3e4f5a6b7c8d9e402"), "nom": "Ndeye Diallo", "telephone": "78 222 33 44", "zone": "Dakar", "nb_livraisons": 94, "note_moyenne": 4.7, "disponible": true },
+  { "_id": ObjectId("67a1c2d3e4f5a6b7c8d9e403"), "nom": "Aliou Sene", "telephone": "76 333 44 55", "zone": "Thiès", "nb_livraisons": 45, "note_moyenne": 4.5, "disponible": false }
+]);</pre></div>
+                
+                <div class="warning-card">
+                    <i class="fas fa-info-circle"></i>
+                    <div><strong>Remarque :</strong> Les ObjectId sont fictifs. Lors de l'import, MongoDB générera des IDs différents. Adaptez vos requêtes en conséquence ou utilisez des variables pour stocker les IDs.</div>
+                </div>
+            </section>
+
+            <!-- 10 QUESTIONS -->
+            <section id="questions" class="section">
+                <h2><i class="fas fa-question-circle"></i> 10 Questions MongoDB <span style="font-size: 0.8rem; background: #E34C26; color: white; padding: 0.2rem 0.6rem; border-radius: 20px; margin-left: 1rem;">Niveau Expert</span></h2>
+                <p>Rédigez les requêtes d'agrégation MongoDB correspondant à chaque question. Les requêtes doivent être fonctionnelles et optimisées.</p>
+
+                <div class="question-card">
+                    <strong><i class="fas fa-question"></i> Question 1</strong><br>
+                    Listez tous les restaurants de Dakar avec leurs plats (jointure restaurants → plats). Affichez le nom du restaurant, sa note moyenne, et la liste des plats avec prix. Trier par note décroissante.
+                </div>
+                <div class="question-card">
+                    <strong><i class="fas fa-question"></i> Question 2</strong><br>
+                    Pour chaque client, calculez le montant total dépensé, le nombre de commandes, et la moyenne de dépense par commande. Incluez uniquement les commandes au statut "livrée". Classez par total dépensé décroissant.
+                </div>
+                <div class="question-card">
+                    <strong><i class="fas fa-question"></i> Question 3</strong><br>
+                    Trouvez les 3 plats les plus commandés (en quantité totale) avec leur prix moyen et leur restaurant d'origine. Utilisez $unwind sur commandes.articles.
+                </div>
+                <div class="question-card">
+                    <strong><i class="fas fa-question"></i> Question 4</strong><br>
+                    Calculez le revenu généré par chaque mode de paiement (Mobile Money, Carte, Espèces) et le pourcentage que cela représente du chiffre d'affaires total. Seulement commandes livrées.
+                </div>
+                <div class="question-card">
+                    <strong><i class="fas fa-question"></i> Question 5</strong><br>
+                    Identifiez les clients qui ont commandé un plat contenant "tofu" ET un plat contenant "poisson" dans des commandes différentes. (Indices : $lookup, $match, $group, $setIntersection ou $all).
+                </div>
+                <div class="question-card">
+                    <strong><i class="fas fa-question"></i> Question 6</strong><br>
+                    Construisez une matrice (dashboard) avec $facet : répartition des commandes par statut + montant total des commandes livrées par mois + top 3 clients fidèles (points_fidelite).
+                </div>
+                <div class="question-card">
+                    <strong><i class="fas fa-question"></i> Question 7</strong><br>
+                    Effectuez une recherche géographique avec $geoNear : trouvez les 2 restaurants les plus proches du client Ousmane Sarr (coordonnées -17.480, 14.720). Affichez le nom du restaurant et la distance en mètres.
+                </div>
+                <div class="question-card">
+                    <strong><i class="fas fa-question"></i> Question 8</strong><br>
+                    Pour chaque livreur, calculez : son nom, le nombre de commandes livrées, le temps de livraison moyen (delai_livraison_minutes), et la note moyenne du livreur. Seulement commandes avec statut "livrée" et livreur_id non null.
+                </div>
+                <div class="question-card">
+                    <strong><i class="fas fa-question"></i> Question 9</strong><br>
+                    Analyse des régimes alimentaires : comptez le nombre de commandes qui contiennent au moins un plat "vegetarien" ou "vegan". Utilisez $lookup entre commandes.articles.plat_id et plats.regime.
+                </div>
+                <div class="question-card">
+                    <strong><i class="fas fa-question"></i> Question 10 (Super expert - Bonus)</strong><br>
+                    Créez un système de recommandation de plats pour chaque client : trouvez les plats commandés par des clients similaires (même ville) mais que le client actuel n'a jamais commandés. Utilisez $group + $addToSet + $setDifference. Implémentez pour le client "Ousmane Sarr".
+                </div>
+            </section>
+
+            <!-- MINI APPLICATION WEB -->
+            <section id="webapp" class="section">
+                <h2><i class="fas fa-globe"></i> Mini-application Web (Python ou PHP)</h2>
+                <p>Vous devez développer une interface web permettant d'interroger la base MongoDB et d'afficher les résultats des 10 requêtes de manière interactive.</p>
+                
+                <div class="tech-card">
+                    <h4><i class="fab fa-python"></i> Option Python</h4>
+                    <p>Stack recommandée : Flask ou FastAPI + PyMongo ou Motor. Exemple de structure :</p>
+                    <div class="code-block"><pre># app.py (Flask)
+from flask import Flask, render_template, jsonify
+from pymongo import MongoClient
+
+app = Flask(__name__)
+client = MongoClient('mongodb://localhost:27017/')
+db = client.alimentation_senegal
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/api/question/1')
+def question1():
+    pipeline = [ ... ]  # Votre requête ici
+    result = list(db.commandes.aggregate(pipeline))
+    return jsonify(result)
+
+if __name__ == '__main__':
+    app.run(debug=True)</pre></div>
+                </div>
+
+                <div class="tech-card">
+                    <h4><i class="fab fa-php"></i> Option PHP</h4>
+                    <p>Stack recommandée : PHP 8+ avec extension MongoDB. Exemple :</p>
+                    <div class="code-block"><pre>&lt;?php
+// index.php
+require_once __DIR__ . '/vendor/autoload.php';
+$client = new MongoDB\Client("mongodb://localhost:27017");
+$db = $client->alimentation_senegal;
+
+$question1 = $db->commandes->aggregate([ ... ]); // Votre pipeline
+
+header('Content-Type: application/json');
+echo json_encode(iterator_to_array($question1));
+?&gt;</pre></div>
+                </div>
+
+                <h3>Fonctionnalités attendues de l'application web</h3>
+                <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                    <li><i class="fas fa-check-circle" style="color: var(--mdb-green);"></i> Une page d'accueil avec présentation du projet et du dataset.</li>
+                    <li><i class="fas fa-check-circle" style="color: var(--mdb-green);"></i> Un menu ou des onglets pour accéder aux 10 questions.</li>
+                    <li><i class="fas fa-check-circle" style="color: var(--mdb-green);"></i> Pour chaque question : affichage de l'énoncé, de la requête MongoDB utilisée, et des résultats formatés (tableau HTML, graphique, ou JSON).</li>
+                    <li><i class="fas fa-check-circle" style="color: var(--mdb-green);"></i> Au moins 2 visualisations graphiques (Chart.js, D3.js ou autre) pour les questions 4 et 6.</li>
+                    <li><i class="fas fa-check-circle" style="color: var(--mdb-green);"></i> Interface responsive et stylisée (CSS moderne).</li>
+                    <li><i class="fas fa-check-circle" style="color: var(--mdb-green);"></i> Code bien structuré, commenté, séparation backend/frontend.</li>
+                </ul>
+
+                <div class="warning-card">
+                    <i class="fas fa-lightbulb"></i>
+                    <div><strong>Conseils :</strong> Utilisez AJAX/Fetch pour charger les résultats sans recharger la page. Gérez les erreurs (connexion MongoDB, requêtes vides). Pensez à la pagination si certains résultats sont volumineux.</div>
+                </div>
+            </section>
+
+            <!-- RENDU & EVALUATION -->
+            <section id="rendu" class="section">
+                <h2><i class="fas fa-file-alt"></i> Rendu & Barème d'évaluation</h2>
+                
+                <h3>📦 Contenu du livrable</h3>
+                <ul style="margin-left: 1.5rem;">
+                    <li>Lien vers dépôt Git (GitHub, GitLab) contenant : 
+                        <ul><li>Scripts d'import MongoDB (fichiers .json ou .js)</li>
+                        <li>Code source complet de l'application web (backend + frontend)</li>
+                        <li>Fichier README avec instructions d'installation et d'exécution</li></ul>
+                    </li>
+                    <li>Rapport PDF (5-10 pages) contenant :
+                        <ul><li>Présentation du projet et du dataset</li>
+                        <li>Les 10 requêtes MongoDB écrites en texte (avec explications)</li>
+                        <li>Architecture de l'application (schéma si possible)</li>
+                        <li>Captures d'écran de l'application web</li>
+                        <li>Difficultés rencontrées et solutions apportées</li>
+                    </ul></li>
+                    <li>Démonstration orale (5-10 minutes) pendant la session de rendu.</li>
+                </ul>
+
+                <h3>Barème indicatif (Total : 100 points)</h3>
+                <table>
+                    <thead><tr><th>Critère</th><th>Points</th></tr></thead>
+                    <tbody>
+                        <tr><td>Import correct du dataset MongoDB</td><td>5</td></tr>
+                        <tr><td>Qualité des 10 requêtes MongoDB (10 questions × 3 points)</td><td>30</td></tr>
+                        <tr><td>Fonctionnalités de l'application web (backend + frontend)</td><td>25</td></tr>
+                        <tr><td>Interface utilisateur (design, responsive, graphiques)</td><td>15</td></tr>
+                        <tr><td>Qualité du code (structure, commentaires, gestion erreurs)</td><td>10</td></tr>
+                        
+                        <tr><td>Démonstration orale</td><td>5</td></tr>
+                    </tbody>
+                </table>
+
+                <div class="info-card">
+                    <i class="fas fa-calendar-alt"></i>
+                    <div><strong>Dates importantes :</strong><br>
+                    - Mise à disposition du sujet : 30 Avril 2026<br>
+                    - Rendu final (dépôt Git) : 4 MAI 2026<br>
+                  </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+<footer>
+    <p><i class="fas fa-utensils"></i> Sujet Expert MongoDB - Alimentation Sénégal | 10 requêtes avancées + Application Web (Python/Php)</p>
+    <p style="margin-top: 0.5rem;">© 2025 - Utilisation libre pour formation MongoDB - 🇸🇳 Bonne chance aux étudiants !</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+[
+  {
+    "_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e001" },
+    "nom": "Chez Fatou - Thiéboudienne",
+    "adresse": { "rue": "Rue 10", "ville": "Dakar", "quartier": "Ouakam", "code_postal": "10000", "coordinates": { "type": "Point", "coordinates": [-17.476, 14.716] } },
+    "telephone": "77 123 45 01",
+    "specialites": ["Thiéboudienne", "Yassa Poulet"],
+    "horaires": { "lundi_vendredi": "08:00-22:00", "samedi": "09:00-23:00", "dimanche": "10:00-20:00" },
+    "note_moyenne": 4.5,
+    "zone_livraison": ["Dakar", "Pikine", "Guédiawaye"],
+    "ouvert": true
+  },
+  {
+    "_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e002" },
+    "nom": "La Marmite de Mame Diarra",
+    "adresse": { "ville": "Dakar", "quartier": "Mermoz", "coordinates": { "type": "Point", "coordinates": [-17.472, 14.710] } },
+    "specialites": ["Mafé", "Soupe Kandia", "Thiéboudienne"],
+    "note_moyenne": 4.8,
+    "zone_livraison": ["Dakar", "Almadies"],
+    "ouvert": true
+  },
+  {
+    "_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e003" },
+    "nom": "Dibi Star Thiès",
+    "adresse": { "ville": "Thiès", "quartier": "Centre", "coordinates": { "type": "Point", "coordinates": [-16.924, 14.802] } },
+    "specialites": ["Dibi", "Yassa Poisson"],
+    "note_moyenne": 4.2,
+    "zone_livraison": ["Thiès", "Tivaouane"],
+    "ouvert": true
+  },
+  {
+    "_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e004" },
+    "nom": "Saint-Louis Plateau",
+    "adresse": { "ville": "Saint-Louis", "quartier": "Île", "coordinates": { "type": "Point", "coordinates": [-16.503, 16.025] } },
+    "specialites": ["Caldou", "Soupe Kandia", "Thiéboudienne"],
+    "note_moyenne": 4.6,
+    "zone_livraison": ["Saint-Louis", "Ndiareme"],
+    "ouvert": false
+  }
+]

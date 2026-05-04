@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sénégal Gastronomie - Dashboard MongoDB</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #13AA52;
+            --secondary: #E34C26;
+            --accent: #FFC107;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --sidebar: #0f172a;
+            --sidebar-hover: #1e293b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 300px;
+            background-color: var(--sidebar);
+            color: white;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: 0.3s;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+
+        .menu-item {
+            padding: 1rem 1.2rem;
+            border-radius: 0.8rem;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-weight: 500;
+            color: #94a3b8;
+        }
+
+        .menu-item:hover {
+            background-color: var(--sidebar-hover);
+            color: white;
+        }
+
+        .menu-item.active {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(19, 170, 82, 0.3);
+        }
+
+        .menu-item i {
+            width: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 300px;
+            flex: 1;
+            padding: 2.5rem;
+            max-width: 1400px;
+        }
+
+        header {
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--sidebar);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            margin-bottom: 2rem;
+            border: 1px solid #e2e8f0;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .question-tag {
+            background: #f1f5f9;
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .query-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            border-left: 4px solid var(--primary);
+        }
+
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            padding: 1rem;
+            background: #f8fafc;
+            color: var(--text-light);
+            font-weight: 600;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        /* Charts */
+        .chart-container {
+            height: 400px;
+            margin-top: 2rem;
+        }
+
+        /* Loading */
+        .loader {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Status Badges */
+        .badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-success { background: #dcfce7; color: #166534; }
+        .badge-warning { background: #fef9c3; color: #854d0e; }
+        .badge-error { background: #fee2e2; color: #991b1b; }
+
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="fas fa-utensils"></i>
+            <span>Sunu Food DB</span>
+        </div>
+        <div class="menu-item active" onclick="showQuestion(0)">
+            <i class="fas fa-home"></i> Vue d'ensemble
+        </div>
+        <div class="menu-item" onclick="showQuestion(1)">
+            <i class="fas fa-store"></i> Q1: Restos Dakar
+        </div>
+        <div class="menu-item" onclick="showQuestion(2)">
+            <i class="fas fa-users"></i> Q2: Dépenses Clients
+        </div>
+        <div class="menu-item" onclick="showQuestion(3)">
+            <i class="fas fa-bowl-food"></i> Q3: Top Plats
+        </div>
+        <div class="menu-item" onclick="showQuestion(4)">
+            <i class="fas fa-credit-card"></i> Q4: Paiements
+        </div>
+        <div class="menu-item" onclick="showQuestion(5)">
+            <i class="fas fa-leaf"></i> Q5: Tofu & Poisson
+        </div>
+        <div class="menu-item" onclick="showQuestion(6)">
+            <i class="fas fa-chart-pie"></i> Q6: Dashboard Facet
+        </div>
+        <div class="menu-item" onclick="showQuestion(7)">
+            <i class="fas fa-map-location-dot"></i> Q7: GeoNear
+        </div>
+        <div class="menu-item" onclick="showQuestion(8)">
+            <i class="fas fa-motorcycle"></i> Q8: Livreurs
+        </div>
+        <div class="menu-item" onclick="showQuestion(9)">
+            <i class="fas fa-carrot"></i> Q9: Régimes
+        </div>
+        <div class="menu-item" onclick="showQuestion(10)">
+            <i class="fas fa-star"></i> Q10: Recommendations
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header id="header-content">
+            <h1>Sénégal Gastronomie</h1>
+            <p class="subtitle">Analyse avancée des données de restauration via MongoDB</p>
+        </header>
+
+        <div id="loader" class="loader"></div>
+
+        <div id="content-area">
+            <!-- Content will be injected here -->
+            <div class="card">
+                <h2>Bienvenue dans le Dashboard</h2>
+                <p style="margin-top: 1rem;">Ce projet utilise MongoDB pour analyser les habitudes alimentaires, les performances des restaurants et des livreurs au Sénégal.</p>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem;">
+                    <div class="card" style="margin-bottom: 0; background: #f0fdf4;">
+                        <h3 style="color: #166534;">5 Collections</h3>
+                        <p>Restaurants, Plats, Clients, Commandes, Livreurs</p>
+                    </div>
+                    <div class="card" style="margin-bottom: 0; background: #fffbeb;">
+                        <h3 style="color: #854d0e;">FastAPI Backend</h3>
+                        <p>Aggregations MongoDB optimisées</p>
+                    </div>
+                    <div class="card" style="margin-bottom: 0; background: #fef2f2;">
+                        <h3 style="color: #991b1b;">Expertise</h3>
+                        <p>Lookup, Unwind, Facet, GeoNear</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const API_BASE = "/api";
+        const contentArea = document.getElementById('content-area');
+        const loader = document.getElementById('loader');
+
+        const questions = [
+            { id: 0, title: "Vue d'ensemble", desc: "" },
+            { 
+                id: 1, title: "Restaurants de Dakar", 
+                desc: "Liste les restaurants de Dakar avec leurs plats, triés par note.",
+                query: "db.restaurants.aggregate([\n  { $match: { 'adresse.ville': 'Dakar' } },\n  { $lookup: { from: 'plats', localField: '_id', foreignField: 'restaurant_id', as: 'liste_plats' } },\n  { $project: { nom: 1, note_moyenne: 1, plats: '$liste_plats' } },\n  { $sort: { note_moyenne: -1 } }\n])"
+            },
+            { 
+                id: 2, title: "Dépenses par Client", 
+                desc: "Total dépensé et moyenne par commande pour les commandes livrées.",
+                query: "db.clients.aggregate([\n  { $lookup: { from: 'commandes', localField: '_id', foreignField: 'client_id', as: 'cmds' } },\n  { $unwind: '$cmds' },\n  { $match: { 'cmds.statut': 'livrée' } },\n  { $group: { _id: '$_id', total: { $sum: '$cmds.total' }, nb: { $sum: 1 }, avg: { $avg: '$cmds.total' } } }\n])"
+            },
+            { 
+                id: 3, title: "Top 3 Plats", 
+                desc: "Les plats les plus populaires avec leur restaurant d'origine.",
+                query: "db.commandes.aggregate([\n  { $unwind: '$articles' },\n  { $group: { _id: '$articles.plat_id', totalQty: { $sum: '$articles.quantite' } } },\n  { $lookup: { from: 'plats', localField: '_id', foreignField: '_id', as: 'p' } },\n  { $sort: { totalQty: -1 } },\n  { $limit: 3 }\n])"
+            },
+            { 
+                id: 4, title: "Analyse des Paiements", 
+                desc: "Répartition du chiffre d'affaires par mode de paiement.",
+                query: "db.commandes.aggregate([\n  { $match: { statut: 'livrée' } },\n  { $facet: {\n      stats: [ { $group: { _id: '$mode_paiement', revenu: { $sum: '$total' } } } ],\n      total: [ { $group: { _id: null, ca: { $sum: '$total' } } } ]\n  } }\n])"
+            },
+            { 
+                id: 5, title: "Clients Multi-Goûts", 
+                desc: "Clients ayant commandé à la fois du Tofu et du Poisson.",
+                query: "db.commandes.aggregate([\n  { $unwind: '$articles' },\n  { $group: { _id: '$client_id', items: { $addToSet: '$articles.nom_plat' } } },\n  { $match: { items: { $all: [/tofu/i, /poisson/i] } } }\n])"
+            },
+            { 
+                id: 6, title: "Dashboard Global", 
+                desc: "Statistiques multi-facettes: Statuts, Revenu mensuel, Top clients.",
+                query: "db.commandes.aggregate([\n  { $facet: {\n      par_statut: [ { $group: { _id: '$statut', nb: { $sum: 1 } } } ],\n      revenu_mois: [ { $match: { statut: 'livrée' } }, { $group: { _id: { $month: '$date_commande' }, total: { $sum: '$total' } } } ],\n      top_clients: [ { $lookup: { from: 'clients', pipeline: [ { $sort: { points_fidelite: -1 } }, { $limit: 3 } ], as: 'c' } } ]\n  } }\n])"
+            },
+            { 
+                id: 7, title: "Recherche de Proximité", 
+                desc: "Restaurants les plus proches d'Ousmane Sarr.",
+                query: "db.restaurants.aggregate([\n  { $geoNear: { \n      near: { type: 'Point', coordinates: [-17.48, 14.72] }, \n      distanceField: 'dist', \n      spherical: true \n  } }\n])"
+            },
+            { 
+                id: 8, title: "Performance Livreurs", 
+                desc: "Temps moyen de livraison et notes des livreurs.",
+                query: "db.commandes.aggregate([\n  { $match: { statut: 'livrée', livreur_id: { $ne: null } } },\n  { $group: { _id: '$livreur_id', nb: { $sum: 1 }, avgTime: { $avg: '$delai_livraison_minutes' } } },\n  { $lookup: { from: 'livreurs', localField: '_id', foreignField: '_id', as: 'l' } }\n])"
+            },
+            { 
+                id: 9, title: "Analyse des Régimes", 
+                desc: "Nombre de commandes contenant des plats végétariens ou vegans.",
+                query: "db.commandes.aggregate([\n  { $unwind: '$articles' },\n  { $lookup: { from: 'plats', localField: 'articles.plat_id', foreignField: '_id', as: 'p' } },\n  { $match: { 'p.regime': { $in: ['vegetarien', 'vegan'] } } },\n  { $count: 'nb' }\n])"
+            },
+            { 
+                id: 10, title: "Recommendations IA", 
+                desc: "Plats suggérés basés sur les voisins (même ville).",
+                query: "db.clients.aggregate([\n  { $match: { _id: ousmane_id } },\n  { $lookup: { from: 'commandes', localField: '_id', foreignField: 'client_id', as: 'my_cmds' } },\n  { $project: { recs: { $setDifference: ['$neighborhood_plats', '$my_plats'] } } }\n])"
+            }
+        ];
+
+        function showQuestion(index) {
+            // Update sidebar
+            document.querySelectorAll('.menu-item').forEach((item, i) => {
+                if (i === index) item.classList.add('active');
+                else item.classList.remove('active');
+            });
+
+            if (index === 0) {
+                location.reload();
+                return;
+            }
+
+            const q = questions[index];
+            if (!q) return;
+
+            loader.style.display = 'block';
+            contentArea.innerHTML = '';
+
+            fetch(`${API_BASE}/question/${index}`)
+                .then(res => res.json())
+                .then(data => {
+                    loader.style.display = 'none';
+                    renderResponse(index, q, data);
+                })
+                .catch(err => {
+                    loader.style.display = 'none';
+                    contentArea.innerHTML = `<div class="card"><h2 style="color:var(--secondary)">Erreur de connexion</h2><p>L'API FastAPI ne semble pas répondre. Assurez-vous que le serveur est lancé.</p></div>`;
+                    console.error(err);
+                });
+        }
+
+        function renderResponse(index, q, data) {
+            let html = `
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <span class="question-tag">Question ${index}</span>
+                            <h2 style="margin-top: 0.5rem;">${q.title}</h2>
+                            <p style="color: var(--text-light); margin-top: 0.3rem;">${q.desc}</p>
+                        </div>
+                    </div>
+
+                    <div class="query-block">
+                        <span style="color: var(--primary); font-weight: 800; font-size: 0.7rem; display: block; margin-bottom: 0.5rem;">PIPELINE MONGODB</span>
+                        <pre><code>${q.query || '// Requête standard'}</code></pre>
+                    </div>
+                    
+                    <div id="data-container">
+                        ${renderTable(index, data)}
+                    </div>
+                </div>
+            `;
+            contentArea.innerHTML = html;
+
+            if (index === 4) renderChartQ4(data);
+            if (index === 6) renderChartQ6(data);
+        }
+
+        function renderTable(index, data) {
+            if (!data || (Array.isArray(data) && data.length === 0)) return "<p>Aucun résultat trouvé.</p>";
+
+            let html = '<div class="table-container"><table><thead><tr>';
+            
+            // Define headers based on question
+            const headers = {
+                1: ["Nom", "Note", "Plats Proposés"],
+                2: ["Client", "Total Dépensé", "Nb Commandes", "Moyenne"],
+                3: ["Plat", "Quantité", "Prix Moyen", "Restaurant"],
+                4: ["Mode de Paiement", "Revenu", "Pourcentage"],
+                5: ["Prénom", "Nom"],
+                7: ["Restaurant", "Distance (m)"],
+                8: ["Livreur", "Livraisons", "Délai Moyen (min)", "Note"],
+                9: ["Métrique", "Valeur"],
+                10: ["Recommandation", "Prix"]
+            };
+
+            if (index === 6) return renderFacetView(data[0]);
+            if (index === 9) {
+                return `<table><thead><tr><th>Métrique</th><th>Valeur</th></tr></thead><tbody>
+                    <tr><td>Commandes Veg/Vegan</td><td>${data[0].nb_commandes_speciales}</td></tr>
+                </tbody></table>`;
+            }
+
+            const currentHeaders = headers[index] || Object.keys(data[0]);
+            currentHeaders.forEach(h => html += `<th>${h}</th>`);
+            html += '</tr></thead><tbody>';
+
+            data.forEach(row => {
+                html += '<tr>';
+                if (index === 1) {
+                    html += `<td>${row.nom}</td><td><span class="badge badge-warning">${row.note_moyenne} ⭐</span></td><td>${row.plats.map(p => `${p.nom} (${p.prix} FCFA)`).join(', ')}</td>`;
+                } else if (index === 2) {
+                    html += `<td>${row.prenom} ${row.nom}</td><td><strong>${row.total_depense} FCFA</strong></td><td>${row.nombre_commandes}</td><td>${Math.round(row.moyenne_depense)} FCFA</td>`;
+                } else if (index === 3) {
+                    html += `<td>${row.nom_plat}</td><td>${row.quantite_totale}</td><td>${row.prix_moyen} FCFA</td><td>${row.restaurant}</td>`;
+                } else if (index === 4) {
+                    // Q4 is usually inside 'repartition'
+                    row.repartition.forEach(mode => {
+                        html += `<tr><td>${mode.mode}</td><td>${mode.revenu} FCFA</td><td><span class="badge badge-success">${mode.pourcentage.toFixed(1)}%</span></td></tr>`;
+                    });
+                    return;
+                } else if (index === 5) {
+                    html += `<td>${row.prenom}</td><td>${row.nom}</td>`;
+                } else if (index === 7) {
+                    html += `<td>${row.nom}</td><td>${Math.round(row.distance_metres)} m</td>`;
+                } else if (index === 8) {
+                    html += `<td>${row.nom}</td><td>${row.nb_livraisons}</td><td>${row.delai_moyen.toFixed(1)}</td><td>${row.note_livreur} ⭐</td>`;
+                } else if (index === 10) {
+                    html += `<td>${row.nom}</td><td>${row.prix} FCFA</td>`;
+                }
+                html += '</tr>';
+            });
+
+            html += '</tbody></table></div>';
+            
+            if (index === 4) html += '<div class="chart-container"><canvas id="chartQ4"></canvas></div>';
+            
+            return html;
+        }
+
+        function renderFacetView(data) {
+            return `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div>
+                        <h3>Répartition par Statut</h3>
+                        <table><thead><tr><th>Statut</th><th>Nombre</th></tr></thead><tbody>
+                            ${data.repartition_statut.map(s => `<tr><td>${s._id}</td><td>${s.nombre}</td></tr>`).join('')}
+                        </tbody></table>
+                    </div>
+                    <div>
+                        <h3>Top Clients (Fidélité)</h3>
+                        <table><thead><tr><th>Client</th><th>Points</th></tr></thead><tbody>
+                            ${data.top_clients.map(c => `<tr><td>${c.prenom} ${c.nom}</td><td>${c.points} pts</td></tr>`).join('')}
+                        </tbody></table>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <h3>Revenu Mensuel (FCFA)</h3>
+                    <canvas id="chartQ6"></canvas>
+                </div>
+            `;
+        }
+
+        function renderChartQ4(data) {
+            const ctx = document.getElementById('chartQ4');
+            const repartition = data[0].repartition;
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: repartition.map(m => m.mode),
+                    datasets: [{
+                        data: repartition.map(m => m.revenu),
+                        backgroundColor: ['#13AA52', '#E34C26', '#FFC107']
+                    }]
+                },
+                options: { maintainAspectRatio: false }
+            });
+        }
+
+        function renderChartQ6(data) {
+            const ctx = document.getElementById('chartQ6');
+            const mensuel = data[0].revenu_mensuel;
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: mensuel.map(m => `Mois ${m._id}`),
+                    datasets: [{
+                        label: 'Revenu Mensuel',
+                        data: mensuel.map(m => m.total),
+                        backgroundColor: '#13AA52'
+                    }]
+                },
+                options: { maintainAspectRatio: false }
+            });
+        }
+    </script>
+</body>
+</html>

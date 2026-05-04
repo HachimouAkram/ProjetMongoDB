@@ -1,0 +1,5 @@
+[
+  { "_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e401" }, "nom": "Moussa Diagne", "telephone": "70 111 22 33", "zone": "Dakar", "nb_livraisons": 128, "note_moyenne": 4.9, "disponible": true },
+  { "_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e402" }, "nom": "Ndeye Diallo", "telephone": "78 222 33 44", "zone": "Dakar", "nb_livraisons": 94, "note_moyenne": 4.7, "disponible": true },
+  { "_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e403" }, "nom": "Aliou Sene", "telephone": "76 333 44 55", "zone": "Thiès", "nb_livraisons": 45, "note_moyenne": 4.5, "disponible": false }
+]

@@ -1,0 +1,6 @@
+[
+  { "_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e201" }, "prenom": "Ousmane", "nom": "Sarr", "email": "ousmane.sarr@example.sn", "telephone": "77 111 22 33", "ville": "Dakar", "adresse_coord": { "type": "Point", "coordinates": [-17.480, 14.720] }, "points_fidelite": 150, "date_inscription": { "$date": "2024-01-15T00:00:00Z" } },
+  { "_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e202" }, "prenom": "Aïssatou", "nom": "Ndiaye", "email": "aissatou.ndiaye@example.sn", "telephone": "78 222 33 44", "ville": "Dakar", "adresse_coord": { "type": "Point", "coordinates": [-17.465, 14.708] }, "points_fidelite": 320, "date_inscription": { "$date": "2023-09-10T00:00:00Z" } },
+  { "_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e203" }, "prenom": "Ibrahima", "nom": "Fall", "telephone": "70 333 44 55", "ville": "Thiès", "adresse_coord": { "type": "Point", "coordinates": [-16.924, 14.802] }, "points_fidelite": 45, "date_inscription": { "$date": "2024-06-20T00:00:00Z" } },
+  { "_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e204" }, "prenom": "Fatou", "nom": "Diop", "ville": "Saint-Louis", "adresse_coord": { "type": "Point", "coordinates": [-16.503, 16.025] }, "points_fidelite": 210, "date_inscription": { "$date": "2023-12-01T00:00:00Z" } }
+]

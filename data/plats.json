@@ -1,0 +1,7 @@
+[
+  { "_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e101" }, "nom": "Thiéboudienne Poisson", "categorie": "plat_principal", "prix": 3500, "ingredients": ["riz", "poisson", "légumes", "tomate", "oignon"], "regime": ["sans lactose"], "restaurant_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e001" }, "preparation_minutes": 45, "calories": 850 },
+  { "_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e102" }, "nom": "Yassa Poulet", "categorie": "plat_principal", "prix": 3000, "ingredients": ["poulet", "oignon", "citron", "moutarde"], "regime": [], "restaurant_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e001" }, "preparation_minutes": 30, "calories": 720 },
+  { "_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e103" }, "nom": "Mafé Tofu", "categorie": "plat_principal", "prix": 2800, "ingredients": ["tofu", "pâte arachide", "légumes"], "regime": ["vegetarien", "vegan"], "restaurant_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e002" }, "preparation_minutes": 40, "calories": 680 },
+  { "_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e104" }, "nom": "Dibi Mouton", "categorie": "grillade", "prix": 4500, "ingredients": ["mouton", "moutarde", "oignon"], "regime": ["sans gluten"], "restaurant_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e003" }, "preparation_minutes": 25, "calories": 950 },
+  { "_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e105" }, "nom": "Caldou (Poisson)", "categorie": "plat_principal", "prix": 4000, "ingredients": ["poisson", "légumes", "plantain"], "regime": [], "restaurant_id": { "$oid": "67a1c2d3e4f5a6b7c8d9e004" }, "preparation_minutes": 50, "calories": 800 }
+]
